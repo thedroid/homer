@@ -33,6 +33,7 @@ within Homer:
   - [SABnzbd](#sabnzbd)
   - [OctoPrint](#octoprint)
   - [Tdarr](#tdarr)
+  - [FreshRSS](#freshrss)
 
 If you experiencing any issue, please have a look to the [troubleshooting](troubleshooting.md) page.
 
@@ -413,3 +414,15 @@ for transcoding on your Tdarr instance as well as the number of errored items.
   type: "Tdarr"
   checkInterval: 5000 # (Optional) Interval (in ms) for updating the queue & error counts
 ```
+
+
+## FreshRSS
+
+The FreshRSS service displays unread and subscriptions counts from your FreshRSS server.
+
+```yaml
+- name: "FreshRSS"
+  type: "FreshRSS"
+  username: "<-- Your username -->"       
+  password: "<-- Your password -->"
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
