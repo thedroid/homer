@@ -33,6 +33,7 @@ within Homer:
   - [SABnzbd](#sabnzbd)
   - [OctoPrint](#octoprint)
   - [Tdarr](#tdarr)
+  - [GeoIP](#geoip)
   - [FreshRSS](#freshrss)
 
 If you experiencing any issue, please have a look to the [troubleshooting](troubleshooting.md) page.
@@ -415,6 +416,16 @@ for transcoding on your Tdarr instance as well as the number of errored items.
   checkInterval: 5000 # (Optional) Interval (in ms) for updating the queue & error counts
 ```
 
+## GeoIP
+
+The Geo Ip service displays your current internet ip address and its geoip location.
+
+```yaml
+- name: "Geo IP"
+  url: "https://ifconfig.co"
+  logo: "https://cdn-icons-png.flaticon.com/512/6159/6159318.png"
+  type: "GeoIP"
+```
 
 ## FreshRSS
 
