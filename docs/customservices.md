@@ -454,6 +454,7 @@ The FreshRSS service displays unread and subscriptions counts from your FreshRSS
   username: "<-- Your username -->"       
   password: "<-- Your password -->"
   updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
+```
 
 ## Immich
 
