@@ -465,3 +465,19 @@ The Immich service displays stats from your Immich server.
   apikey: "<--- Your api key --->" # administrator user
   updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
 ```
+
+## Transmission
+
+The Transmission service displays stats from Transmission using notification bubbles.
+Total torrents (blue), Seeding (orange), Downloading (green).
+Download and Upload speeds are shown in the subtitle bar.
+
+```yaml
+- name: "Transmission"
+  type: "Transmission"
+# subtitle: ""  # Subtitle field is used for ul / dl speeds
+  username: "<--- your username -->"
+  password: "<--- your password -->"        
+  endpoint: "http://<-- address -->:<-- port -->/transmission/rpc" # Example "http://192.168.1.100:9091/transmission/rpc"
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
+```
