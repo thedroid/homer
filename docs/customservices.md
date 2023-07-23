@@ -34,6 +34,7 @@ within Homer:
   - [OctoPrint](#octoprint)
   - [Tdarr](#tdarr)
   - [GeoIP](#geoip)
+  - [PiAlert](#pialert)
   - [FreshRSS](#freshrss)
   - [Immich](#immich)
 
@@ -426,6 +427,16 @@ The Geo Ip service displays your current internet ip address and its geoip locat
   url: "https://ifconfig.co"
   logo: "https://cdn-icons-png.flaticon.com/512/6159/6159318.png"
   type: "GeoIP"
+```
+
+## PiAlert
+
+The PiAlert service displays stats from your PiAlert server.
+
+```yaml
+- name: "PiAlert"
+  type: "PiAlert"
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
 ```
 
 ## FreshRSS
