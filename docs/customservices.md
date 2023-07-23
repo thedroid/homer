@@ -37,6 +37,7 @@ within Homer:
   - [PiAlert](#pialert)
   - [FreshRSS](#freshrss)
   - [Immich](#immich)
+  - [Transmission](#transmission)
 
 If you experiencing any issue, please have a look to the [troubleshooting](troubleshooting.md) page.
 
