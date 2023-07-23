@@ -21,24 +21,6 @@
               'is-small': item.small_font_on_desktop,
             }"
           >
-            <span v-if="isValueShown('vms')" class="margined"
-              >VMs:
-              <span class="is-number"
-                ><span class="has-text-weight-bold">{{ vms.running }}</span
-                ><span v-if="isValueShown('vms_total')"
-                  >/{{ vms.total }}</span
-                ></span
-              ></span
-            >
-            <span v-if="isValueShown('lxcs')" class="margined"
-              >LXCs:
-              <span class="is-number"
-                ><span class="has-text-weight-bold">{{ lxcs.running }}</span
-                ><span v-if="isValueShown('lxcs_total')"
-                  >/{{ lxcs.total }}</span
-                ></span
-              ></span
-            >
             <span v-if="isValueShown('disk')" class="margined"
               >Disk:
               <span
@@ -68,8 +50,28 @@
       </p>
     </template>
     <template #indicator>
-      <i v-if="loading" class="fa fa-circle-notch fa-spin fa-2xl"></i>
-      <i v-if="error" class="fa fa-exclamation-circle fa-2xl danger"></i>
+      <div class="notifs">
+        <strong v-if="isValueShown('lxcs')" class="notif lxcs" title="LXCs running/Total">
+          LXCs:
+          <span class="is-number">
+            <span class="has-text-weight-bold">{{ lxcs.running }}</span>
+            <span v-if="isValueShown('lxcs_total')">/{{ lxcs.total }}</span>
+          </span>
+        </strong>
+        <strong v-if="isValueShown('vms')" class="notif vms" title="VMs running/total">
+          VMs:
+          <span class="is-number">
+            <span class="has-text-weight-bold">{{ vms.running }}</span>
+            <span v-if="isValueShown('vms_total')">/{{ vms.total }}</span>
+          </span>
+        </strong>
+        <strong
+          v-if="error"
+          class="notif errors"
+          title="Connection error to ProxMox API, check your settings in config.yml"
+          >?</strong
+        >
+      </div>
     </template>
   </Generic>
 </template>
@@ -105,6 +107,10 @@ export default {
   }),
   created() {
     if (this.item.hide) this.hide = this.item.hide;
+    const updateInterval = parseInt(this.item.updateInterval, 10) || 0;
+    if (updateInterval > 0) {
+      setInterval(() => this.fetchStatus(), updateInterval);
+    }
     this.fetchStatus();
   },
   methods: {
@@ -141,7 +147,9 @@ export default {
             `/api2/json/nodes/${this.item.node}/qemu`,
             options
           );
-          this.parseVMsAndLXCs(vms, this.vms);
+          let count_vms = { total: 0, running: 0};
+          this.parseVMsAndLXCs(vms, count_vms);
+          this.vms = count_vms;
         }
         // lxc containers:
         if (this.isValueShown("lxcs")) {
@@ -149,7 +157,9 @@ export default {
             `/api2/json/nodes/${this.item.node}/lxc`,
             options
           );
-          this.parseVMsAndLXCs(lxcs, this.lxcs);
+          let count_lxcs = { total: 0, running: 0};
+          this.parseVMsAndLXCs(lxcs, count_lxcs);
+          this.lxcs = count_lxcs;
         }
         this.error = false;
       } catch (err) {
@@ -189,5 +199,30 @@ export default {
 }
 .is-small {
   font-size: small;
+}
+
+.notifs {
+  position: absolute;
+  color: white;
+  font-family: sans-serif;
+  top: 0.3em;
+  right: 0.5em;
+  .notif {
+    display: inline-block;
+    padding: 0.2em 0.35em;
+    border-radius: 0.25em;
+    position: relative;
+    margin-left: 0.3em;
+    font-size: 0.8em;
+    &.vms {
+      background-color: #4fb5d6;
+    }
+    &.errors {
+      background-color: #e51111;
+    }
+    &.lxcs {
+      background-color: #8dd475;
+    }
+  }
 }
 </style>

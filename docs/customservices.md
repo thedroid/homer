@@ -326,6 +326,7 @@ Configuration example:
   hide: [] # hides information. Possible values are "vms", "vms_total", "lxcs", "lxcs_total", "disk", "mem" and "cpu".
   small_font_on_small_screens: true # uses small font on small screens (like mobile)
   small_font_on_desktop: true # uses small font on desktops (just in case you're showing much info)
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the details.
 ```
 
 ## qBittorrent
