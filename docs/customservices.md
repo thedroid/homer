@@ -35,6 +35,7 @@ within Homer:
   - [Tdarr](#tdarr)
   - [GeoIP](#geoip)
   - [FreshRSS](#freshrss)
+  - [Immich](#immich)
 
 If you experiencing any issue, please have a look to the [troubleshooting](troubleshooting.md) page.
 
@@ -437,3 +438,14 @@ The FreshRSS service displays unread and subscriptions counts from your FreshRSS
   username: "<-- Your username -->"       
   password: "<-- Your password -->"
   updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
+
+## Immich
+
+The Immich service displays stats from your Immich server.
+
+```yaml
+- name: "Immich"
+  type: "Immich"
+  apikey: "<--- Your api key --->" # administrator user
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
+```
