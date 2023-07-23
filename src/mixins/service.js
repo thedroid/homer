@@ -12,7 +12,7 @@ export default {
     }
   },
   methods: {
-    fetch: function (path, init, json = true) {
+    fetch: function (path, init, json = true, forceResponse = false) {
       let options = {};
 
       if (this.proxy?.useCredentials) {
@@ -38,13 +38,17 @@ export default {
       }
 
       return fetch(url, options).then((response) => {
+        
         if (response.type == "opaque") {
           // For no-cors requests, return empty response
           return ""
         }
 
         if (!response.ok) {
-          throw new Error("Not 2xx response");
+          if (!forceResponse)
+            throw new Error("Not 2xx response");
+          else
+            return response;
         }
 
         return json ? response.json() : response;
