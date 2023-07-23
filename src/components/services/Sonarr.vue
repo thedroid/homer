@@ -2,19 +2,19 @@
   <Generic :item="item">
     <template #indicator>
       <div class="notifs">
-        <strong v-if="activity > 0" class="notif activity" title="Activity">
-          {{ activity }}
+        <strong v-if="queued > 0" class="notif queued" title="Queued">
+          {{ queued }}
         </strong>
-        <strong v-if="warnings > 0" class="notif warnings" title="Warning">
-          {{ warnings }}
+        <strong v-if="wanted > 0" class="notif wanted" title="Wanted">
+          {{ wanted }}
         </strong>
-        <strong v-if="errors > 0" class="notif errors" title="Error">
-          {{ errors }}
+        <strong v-if="series > 0" class="notif series" title="Series">
+          {{ series }}
         </strong>
         <strong
           v-if="serverError"
           class="notif errors"
-          title="Connection error to Sonarr API, check url and apikey in config.yml"
+          title="Connection error to Sonarr API, check your url and apikey in config.yml"
         >
           ?
         </strong>
@@ -46,45 +46,49 @@ export default {
   },
   data: () => {
     return {
-      activity: null,
-      warnings: null,
-      errors: null,
+      queued: null,
+      wanted: null,
+      series: null,
       serverError: false,
     };
   },
   created: function () {
+    const updateInterval = parseInt(this.item.updateInterval, 10) || 0;
+    if (updateInterval > 0) {
+      setInterval(() => this.fetchConfig(), updateInterval);
+    }
     this.fetchConfig();
   },
   methods: {
     fetchConfig: function () {
-      this.fetch(`${this.apiPath}/health?apikey=${this.item.apikey}`)
-        .then((health) => {
-          this.warnings = 0;
-          this.errors = 0;
-          for (var i = 0; i < health.length; i++) {
-            if (health[i].type == "warning") {
-              this.warnings++;
-            } else if (health[i].type == "error") {
-              this.errors++;
+      this.fetch(`${this.apiPath}/queue?apikey=${this.item.apikey}`)
+        .then((queue) => {
+          this.queued = 0;
+          if (this.item.legacyApi) {
+            for (var i = 0; i < queue.length; i++) {
+              if (queue[i].series) {
+                this.queued++;
+              }
             }
+          } else {
+            this.queued = queue.totalRecords;
           }
         })
         .catch((e) => {
           console.error(e);
           this.serverError = true;
         });
-      this.fetch(`${this.apiPath}/queue?apikey=${this.item.apikey}`)
-        .then((queue) => {
-          this.activity = 0;
-          if (this.item.legacyApi) {
-            for (var i = 0; i < queue.length; i++) {
-              if (queue[i].series) {
-                this.activity++;
-              }
-            }
-          } else {
-            this.activity = queue.totalRecords;
-          }
+      this.fetch(`${this.apiPath}/wanted/missing?apikey=${this.item.apikey}`)
+        .then((missing) => {
+          this.wanted = missing.totalRecords;
+        })
+        .catch((e) => {
+          console.error(e);
+          this.serverError = true;
+        });
+      this.fetch(`${this.apiPath}/series?apikey=${this.item.apikey}&includeSeasonImages=false`)
+        .then((allseries) => {
+          this.series = allseries.length;
         })
         .catch((e) => {
           console.error(e);
@@ -111,16 +115,16 @@ export default {
     margin-left: 0.3em;
     font-size: 0.8em;
 
-    &.activity {
+    &.queued {
       background-color: #4fb5d6;
     }
 
-    &.warnings {
+    &.wanted {
       background-color: #d08d2e;
     }
 
-    &.errors {
-      background-color: #e51111;
+    &.series {
+      background-color: #8dd475;
     }
   }
 }

@@ -2,14 +2,17 @@
   <Generic :item="item">
     <template #indicator>
       <div class="notifs">
-        <strong v-if="activity > 0" class="notif activity" title="Activity">
-          {{ activity }}
+        <strong v-if="queue > 0" class="notif queue" title="Queued">
+          {{ queue }}
         </strong>
-        <strong v-if="warnings > 0" class="notif warnings" title="Warning">
-          {{ warnings }}
+        <strong v-if="wanted > 0" class="notif wanted" title="Wanted">
+          {{ wanted }}
         </strong>
-        <strong v-if="errors > 0" class="notif errors" title="Error">
-          {{ errors }}
+        <strong v-if="missing > 0" class="notif missing" title="Missing">
+          {{ missing }}
+        </strong>
+        <strong v-if="movie > 0" class="notif movie" title="Movies">
+          {{ movie }}
         </strong>
         <strong
           v-if="serverError"
@@ -40,13 +43,18 @@ export default {
   },
   data: () => {
     return {
-      activity: null,
-      warnings: null,
-      errors: null,
+      queue: null,
+      wanted: null,
+      missing: null,
+      movie: null,
       serverError: false,
     };
   },
   created: function () {
+    const updateInterval = parseInt(this.item.updateInterval, 10) || 0;
+    if (updateInterval > 0) {
+      setInterval(() => this.fetchConfig(), updateInterval);
+    }
     this.fetchConfig();
   },
   computed: {
@@ -56,34 +64,26 @@ export default {
   },
   methods: {
     fetchConfig: function () {
-      this.fetch(`${this.apiPath}/health?apikey=${this.item.apikey}`)
-        .then((health) => {
-          this.warnings = 0;
-          this.errors = 0;
-          for (var i = 0; i < health.length; i++) {
-            if (health[i].type == "warning") {
-              this.warnings++;
-            } else if (health[i].type == "error") {
-              this.errors++;
-            }
-          }
+      this.fetch(`${this.apiPath}/queue/status?apikey=${this.item.apikey}`)
+        .then((queues) => {
+          this.queue = queues.totalCount;
         })
         .catch((e) => {
           console.error(e);
           this.serverError = true;
         });
-      this.fetch(`${this.apiPath}/queue?apikey=${this.item.apikey}`)
-        .then((queue) => {
-          this.activity = 0;
-
-          if (this.item.legacyApi) {
-            for (var i = 0; i < queue.length; i++) {
-              if (queue[i].movie) {
-                this.activity++;
-              }
-            }
-          } else {
-            this.activity = queue.totalRecords;
+      this.fetch(`${this.apiPath}/movie?apikey=${this.item.apikey}`)
+        .then((movies) => {
+          this.wanted = 0;
+          this.movie = 0;
+          this.missing = 0;
+          for (var i = 0; i < movies.length;i++) {
+                if (movies[i].monitored && !movies[i].hasFile && movies[i].isAvailable)
+                   this.wanted++;
+                if (movies[i].hasFile)
+                   this.movie++;
+                if (movies[i].monitored && !movies[i].hasFile)
+                   this.missing++;
           }
         })
         .catch((e) => {
@@ -109,16 +109,20 @@ export default {
     position: relative;
     margin-left: 0.3em;
     font-size: 0.8em;
-    &.activity {
+    &.queue {
       background-color: #4fb5d6;
     }
 
-    &.warnings {
+    &.wanted {
       background-color: #d08d2e;
     }
 
-    &.errors {
+    &.missing {
       background-color: #e51111;
+    }
+
+    &.movie {
+      background-color: #8dd475;
     }
   }
 }

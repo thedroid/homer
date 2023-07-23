@@ -102,12 +102,17 @@ The Medusa API key can be found in General configuration > Interface. It is need
 
 ## Lidarr, Prowlarr, Sonarr and Radarr
 
-This service displays Activity (blue), Warning (orange) or Error (red) notifications bubbles from the Lidarr, Radarr or Sonarr application.
-Two lines are needed in the config.yml :
+These services display notification bubbles from the Lidarr, Radarr or Sonarr application.
+Lidaar: Activity (blue), Warning (orange) or Error (red)
+Radarr: Queued (blue), Wanted (orange), Missing (red) , Movie count (green)
+Sonarr: Queued (blue), Wanted (orange), Series count (green)
+
+Two lines are needed in the config.yml. updateInterval is optional :
 
 ```yaml
   type: "Lidarr", "Prowlarr", "Radarr" or "Sonarr"
   apikey: "<---insert-api-key-here--->"
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats.
 ```
 
 The url must be the root url of Lidarr, Prowlarr, Radarr or Sonarr application.
