@@ -38,7 +38,6 @@ within Homer:
   - [FreshRSS](#freshrss)
   - [Immich](#immich)
   - [Transmission](#transmission)
-  - [PaperlessNGX](#paperlessngx)
 
 If you experiencing any issue, please have a look to the [troubleshooting](troubleshooting.md) page.
 
@@ -490,14 +489,3 @@ Download and Upload speeds are shown in the subtitle bar.
   endpoint: "http://<-- address -->:<-- port -->/transmission/rpc" # Example "http://192.168.1.100:9091/transmission/rpc"
   updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
 ```
-
-## PaperlessNGX
-
-This service displays total number of documents stored (blue) and inbox queue (green) 
-
-```yaml
-  type: "PaperlessNGX"
-  apikey: "<---insert-api-key-here--->"
-```
-
-API key can be generated in Settings > Administration > Auth Tokens
