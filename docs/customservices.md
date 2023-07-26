@@ -132,7 +132,12 @@ If you are using an older version of Radarr or Sonarr which don't support the ne
 
 ## PaperlessNG
 
-This service displays total number of documents stored. Two lines are required:
+This service displays total number of documents stored and inbox totals. 
+If subtitle is unset, display the info in the subtitle section.  
+If subtitle is set e.g. ( subtitle: "" or subtitle: "Document management" etc) , notification bubbles are used to display the info.
+Notification bubbles:  Total Documents (blue), Inbox total (green)
+
+Two lines are required:
 
 ```yaml
   type: "PaperlessNG"
