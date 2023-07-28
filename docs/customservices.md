@@ -38,6 +38,7 @@ within Homer:
   - [FreshRSS](#freshrss)
   - [Immich](#immich)
   - [Transmission](#transmission)
+  - [Immich](#immich)
 
 If you experiencing any issue, please have a look to the [troubleshooting](troubleshooting.md) page.
 
@@ -487,5 +488,15 @@ Download and Upload speeds are shown in the subtitle bar.
   username: "<--- your username -->"
   password: "<--- your password -->"        
   endpoint: "http://<-- address -->:<-- port -->/transmission/rpc" # Example "http://192.168.1.100:9091/transmission/rpc"
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
+```
+## Immich
+
+The Immich service displays stats from your Immich server.
+
+```yaml
+- name: "Immich"
+  type: "Immich"
+  apikey: "<--- Your api key --->" # administrator user
   updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
 ```

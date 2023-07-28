@@ -115,11 +115,14 @@ export default {
     }
 
     &.usage {
-      background-color: #e51111;
+      background-color: #b800e6;
     }
 
     &.users {
       background-color: #8dd475;
+    }
+    &.errors {
+      background-color: #e51111;
     }
   }
 }
