@@ -39,6 +39,7 @@ within Homer:
   - [Immich](#immich)
   - [Transmission](#transmission)
   - [Immich](#immich)
+  - [Klipper](#klipper/moonraker)
 
 If you experiencing any issue, please have a look to the [troubleshooting](troubleshooting.md) page.
 
