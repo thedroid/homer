@@ -1,0 +1,34 @@
+{
+    "result": {
+        "eventtime": 59935.229019162,
+        "status": {
+            "display_status": {
+                "progress": 0.3440347786877596,
+                "message": null
+            },
+            "webhooks": {
+                "state": "ready",
+                "state_message": "Printer is ready"
+            },
+            "print_stats": {
+                "filename": "print.gcode",
+                "total_duration": 5546.588519687,
+                "print_duration": 5265.897173136,
+                "filament_used": 7236.76198,
+                "state": "printing",
+                "message": "",
+                "info": {
+                    "total_layer": 330,
+                    "current_layer": 104
+                }
+            },
+            "virtual_sdcard": {
+                "file_path": "/printer_data/gcodes/print.gcode",
+                "progress": 0.3440347786877596,
+                "is_active": true,
+                "file_position": 8121189,
+                "file_size": 23605721
+            }
+        }
+    }
+}

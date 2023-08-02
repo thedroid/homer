@@ -500,3 +500,18 @@ The Immich service displays stats from your Immich server.
   apikey: "<--- Your api key --->" # administrator user
   updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats
 ```
+
+## Klipper/Moonraker
+
+The Klipper/Moonraker service display info on Klipper.
+
+This does not use the OctoPrint compatibility API, but instead, Moonrakers native api as it provides additional info.
+It diplays printer status, percentage complete and estimated time remaing for print.
+
+
+```yaml
+- name: "Klipper"
+  url: "http://192.168.0.151"
+  type: "Klipper"
+  updateInterval: 5000 # (Optional) Interval (in ms) for updating the stats  
+```
